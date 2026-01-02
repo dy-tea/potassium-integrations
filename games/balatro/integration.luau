@@ -18,19 +18,19 @@ local function is_game_installed(): boolean
 end
 
 local function set_installed_love_version(name: string)
-    fs.write_file(version_file_path, name)
+    fs.write_file(version_file_path, name):await()
 end
 
 local function get_installed_love_version(): string
     if not fs.exists(version_file_path) then
         return ""
     end
-    return str.from_bytes(fs.read_file(version_file_path))
+    return str.from_bytes(fs.read_file(version_file_path):await())
 end
 
 local function get_love_versions(): {}
     local iter = import("iterable")
-    local tags_resp = net.fetch("https://api.github.com/repos/love2d/love/tags", {
+    local promise = http.fetch("https://api.github.com/repos/love2d/love/tags", {
         method = "get",
         headers = {
             ["User-Agent"] = "curl/8.13.0",
@@ -38,6 +38,7 @@ local function get_love_versions(): {}
         },
         body = {}
     })
+    local tags_resp, _ = promise:await()
     if tags_resp.is_ok then
         local tags_json = str.decode(str.from_bytes(tags_resp.body), "json")
         return iter(tags_json)
