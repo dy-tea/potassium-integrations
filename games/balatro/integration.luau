@@ -1,3 +1,5 @@
+--!nocheck
+
 function import(...)
     return (load("import").value)(...)
 end
@@ -29,26 +31,8 @@ local function get_installed_love_version(): string
 end
 
 local function get_love_versions(): {}
-    local iter = import("iterable")
-    local promise = http.fetch("https://api.github.com/repos/love2d/love/tags", {
-        method = "get",
-        headers = {
-            ["User-Agent"] = "curl/8.13.0",
-            ["Accept"] = "*/*"
-        },
-        body = {}
-    })
-    local tags_resp, _ = promise:await()
-    if tags_resp.is_ok then
-        local tags_json = str.decode(str.from_bytes(tags_resp.body), "json")
-        return iter(tags_json)
-            .map(function (item) return item["name"] end)
-            .collect()
-    else
-        error(`no response from github api`)
-        -- TODO: get list of local versions
-        return {'none'}
-    end
+    -- github api keeps ratelimiting me so this is the easier way
+    return {"11.5", "11.4", "11.3", "11.2", "11.1", "11.0"}
 end
 
 local function get_love_filename(name: string): string
@@ -59,14 +43,12 @@ local __settings = nil
 
 local function import_settings()
     if not __settings then
-        local i18n = import("i18n").i18n
         local versions = get_love_versions()
-        dbg(versions)
         __settings = import("settings")({
             game = "balatro",
             layout = {
                 game = {
-                    title = i18n("game"),
+                    title = "Game",
                     entries = {
                         wayland = {
                             title = "Use Wayland",
@@ -135,7 +117,6 @@ return {
         end,
 
         get_actions_pipeline = function(variant: Variant): nil | {}
-            local i18n = import("i18n").i18n
             local settings = import_settings()
 
             -- install LÖVE if needed
@@ -153,7 +134,7 @@ return {
                     })
                 end
                 return {
-                    title = i18n("update_game_runner"),
+                    title = "Update Runner",
                     pipeline = {
                         {
                             title = "Install LÖVE",
@@ -182,11 +163,25 @@ return {
                         {
                             title = "Install sdl2-compat",
                             perform = function(updater)
+                                -- parse sdl2-compat url from html response
+                                local sdl2_compat_url = nil
+                                local resp = http.fetch("https://packages.cachyos.org/package/extra/x86_64/sdl2-compat"):await()
+                                if resp.is_ok then
+                                    local body = resp.body:as_string()
+                                    sdl2_compat_url = body:match('href="(https://archlinux%.cachyos%.org/repo/extra/os/x86_64/sdl2%-compat[^"]+%.pkg%.tar%.zst)"')
+                                    if not sdl2_compat_url then
+                                        error("Failed to parse sdl2-compat url")
+                                    end
+                                else
+                                    error("Failed to fetch sdl2-compat url")
+                                end
+
+
                                 -- download
                                 local handle = downloader.create()
                                 local output_file = path.join(path.temp_dir(), "sdl2.tar.zst")
                                 local task = downloader.download(handle, {
-                                    url = "https://archlinux.cachyos.org/repo/extra/os/x86_64/sdl2-compat-2.32.60-1-x86_64.pkg.tar.zst",
+                                    url = sdl2_compat_url,
                                     output_file = output_file,
                                     on_update = function(current, total)
                                         on_update(updater, current, total)
@@ -212,10 +207,10 @@ return {
 
             -- download and patch game
             return {
-                title = i18n("install_game"),
+                title = "Install Game",
                 pipeline = {
                     {
-                        title = i18n("download_game_files"),
+                        title = "Download Game Files",
                         perform = function(updater)
                             local handle = downloader.create()
                             local task = downloader.download(handle, {

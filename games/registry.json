@@ -1,5 +1,5 @@
 {
-  "version": 1,
+  "format": 1,
   "games": [
     {
       "url": "https://raw.githubusercontent.com/dy-tea/potassium-integrations/refs/heads/master/games/balatro/manifest.json",
