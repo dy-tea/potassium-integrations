@@ -1,0 +1,31 @@
+{
+  "format": 1,
+  "game": {
+    "title": "Peggle Deluxe",
+    "description": {
+      "en": "Take your best shot with energizing arcade fun! Aim, shoot, clear the orange pegs, then sit back and cheer as 10 whimsical teachers guide you to Peggle greatness. Conquer 55 fanciful levels with 10 mystical Magic Powers, racking up bonus points and shots you'll smile about for weeks. Face off against your friends in Duel Mode, or tackle 75 extra-tricky challenges. It's luck and skill and joyous thrills, and amidst all this fevered action only one question remains:\nCan you become a Peggle Master?\n\n• Wield 10 miraculous Magic Powers!\n• Master 55 levels of bouncy delight!\n• Conquer 75 Master challenges!\n• Play friends or the computer in Duel Mode!\n• Revel in breathtaking artwork and music!\n• Replay and save your best shots!"
+    },
+    "developer": "PopCap Games, Inc",
+    "publisher": "PopCap Games, Inc., Electronic Arts",
+    "images": {
+      "icon": "https://raw.githubusercontent.com/dy-tea/potassium-integrations/refs/heads/master/games/peggle-deluxe/icon.jpg",
+      "poster": "https://raw.githubusercontent.com/dy-tea/potassium-integrations/refs/heads/master/games/peggle-deluxe/poster.png",
+      "background": "https://raw.githubusercontent.com/dy-tea/potassium-integrations/refs/heads/master/games/peggle-deluxe/background.jpg",
+      "slides": [
+        "https://raw.githubusercontent.com/dy-tea/potassium-integrations/refs/heads/master/games/peggle-deluxe/slide1.jpg",
+        "https://raw.githubusercontent.com/dy-tea/potassium-integrations/refs/heads/master/games/peggle-deluxe/slide2.jpg",
+        "https://raw.githubusercontent.com/dy-tea/potassium-integrations/refs/heads/master/games/peggle-deluxe/slide3.jpg",
+        "https://raw.githubusercontent.com/dy-tea/potassium-integrations/refs/heads/master/games/peggle-deluxe/slide4.jpg",
+        "https://raw.githubusercontent.com/dy-tea/potassium-integrations/refs/heads/master/games/peggle-deluxe/slide5.jpg",
+        "https://raw.githubusercontent.com/dy-tea/potassium-integrations/refs/heads/master/games/peggle-deluxe/slide6.jpg",
+        "https://raw.githubusercontent.com/dy-tea/potassium-integrations/refs/heads/master/games/peggle-deluxe/slide7.jpg",
+        "https://raw.githubusercontent.com/dy-tea/potassium-integrations/refs/heads/master/games/peggle-deluxe/slide8.jpg",
+        "https://raw.githubusercontent.com/dy-tea/potassium-integrations/refs/heads/master/games/peggle-deluxe/slide9.jpg"
+      ]
+    }
+  },
+  "package": {
+    "url": "https://raw.githubusercontent.com/dy-tea/potassium-integrations/refs/heads/master/games/peggle-deluxe/package.json",
+    "output": "integration"
+  }
+}
