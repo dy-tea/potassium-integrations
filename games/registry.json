@@ -8,6 +8,10 @@
     {
       "url": "https://raw.githubusercontent.com/dy-tea/potassium-integrations/refs/heads/master/games/peggle-deluxe/manifest.json",
       "featured": true
+    },
+    {
+      "url": "https://raw.githubusercontent.com/dy-tea/potassium-integrations/refs/heads/master/games/nubbys-number-factory/manifest.json",
+      "featured": true
     }
   ]
 }
