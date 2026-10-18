@@ -1,7 +1,22 @@
 --!nocheck
 
-function import(...)
-	return (load("import").value)(...)
+if not import then
+    -- polyfill: old agl-runtime versions don't have `import` function
+    function import(name: string)
+        local resource = load(name)
+
+        if resource.format ~= "package" then
+            return resource.value
+        end
+
+        local outputs = {}
+
+        for name, value in pairs(resource.value) do
+            outputs[name] = value.value
+        end
+
+        return outputs
+    end
 end
 
 type Variant = {
@@ -9,7 +24,7 @@ type Variant = {
     edition: string
 }
 
-local data_dir_path: string = path.persist_dir("nubbys-number-factory")
+local data_dir_path: string = path.persist_dir("nubbys_number_factory")
 local game_dir_path: string = path.join(data_dir_path, "NubbysNumberFactory")
 local exe_path: string = path.join(game_dir_path, "NNF_FULLVERSION.exe")
 

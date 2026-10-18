@@ -9,9 +9,8 @@ registries = [
 ]
 
 [packages]
-allow_lists = [
+scopes_lists = [
     "...",
-    "https://raw.githubusercontent.com/dy-tea/potassium-integrations/refs/heads/master/packages/allow_list.json"
+    "https://raw.githubusercontent.com/dy-tea/potassium-integrations/refs/heads/master/scopes.json"
 ]
 ```
-

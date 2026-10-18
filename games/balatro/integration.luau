@@ -1,8 +1,25 @@
 --!nocheck
 
-function import(...)
-    return (load("import").value)(...)
+if not import then
+    -- polyfill: old agl-runtime versions don't have `import` function
+    function import(name: string)
+        local resource = load(name)
+
+        if resource.format ~= "package" then
+            return resource.value
+        end
+
+        local outputs = {}
+
+        for name, value in pairs(resource.value) do
+            outputs[name] = value.value
+        end
+
+        return outputs
+    end
 end
+
+
 
 type Variant = {
     platform: string,
@@ -44,6 +61,15 @@ local __settings = nil
 local function import_settings()
     if not __settings then
         local versions = get_love_versions()
+        local love_versions = {}
+
+        for _, version in versions do
+            table.insert(love_versions, {
+                name = version,
+                title = version
+            })
+        end
+
         __settings = import("settings")({
             game = "balatro",
             layout = {
@@ -61,7 +87,7 @@ local function import_settings()
                             title = "LÖVE Version",
                             entry = {
                                 format = "enum",
-                                values = versions,
+                                values = love_versions,
                                 default = versions[1]
                             }
                         }
@@ -75,8 +101,6 @@ local function import_settings()
 end
 
 return {
-    version = 1,
-
     game = {
         get_launch_info = function(variant: Variant): nil | {}
             local settings = import_settings()
